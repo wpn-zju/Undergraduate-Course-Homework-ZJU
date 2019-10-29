@@ -1,0 +1,3 @@
+data内存放数据
+格式为 name course1name course1score course2name course2score ... 
+以end结束单个学生信息并进入下一个学生输入

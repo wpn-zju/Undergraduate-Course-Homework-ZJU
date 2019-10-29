@@ -1,0 +1,12 @@
+jack
+chinese 80
+mathematics 80
+english 80
+science 80
+end
+jimmy
+chinese 90
+mathematics 90
+english 90
+science 90
+end

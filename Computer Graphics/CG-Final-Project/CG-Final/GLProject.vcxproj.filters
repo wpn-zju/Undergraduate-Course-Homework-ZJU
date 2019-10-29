@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{f9bfb44a-7173-4b8b-b98f-a66ceeb35a5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{2a687a70-3d16-435e-a526-e94d6fc7e3d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Model">
+      <UniqueIdentifier>{31aee063-9008-458c-9c8d-ff8b29e0c9a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Model">
+      <UniqueIdentifier>{1cc2865d-34bb-4e3b-b023-b867480a10d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Others">
+      <UniqueIdentifier>{0519481e-dc64-4c15-88e5-02c914b572f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLEE">
+      <UniqueIdentifier>{af8d8737-8506-4675-92ca-78bdb509233b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EXT">
+      <UniqueIdentifier>{3a09237e-b51f-41cd-8f84-83687340924b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EXT\GLEXT">
+      <UniqueIdentifier>{84b3b5fc-9616-4543-8965-dd16199316a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Math">
+      <UniqueIdentifier>{25ed930f-c2fe-4133-8e4e-6b1228f2edfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Math">
+      <UniqueIdentifier>{b21a1c7a-df13-49c8-b115-0d7d3c4e7109}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Others">
+      <UniqueIdentifier>{36cf0f12-54c3-41c2-82fa-bd3ea836df58}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CG-Final\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Build\ball.cpp">
+      <Filter>源文件\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Build\cube.cpp">
+      <Filter>源文件\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Build\cylin.cpp">
+      <Filter>源文件\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Build\pyram.cpp">
+      <Filter>源文件\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Others\ParticleSystem.cpp">
+      <Filter>源文件\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Others\PhysicsEngine.cpp">
+      <Filter>源文件\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\EXT_texture_env_combine_extension.cpp">
+      <Filter>EXT</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\ARB_multitexture_extension.cpp">
+      <Filter>EXT</Filter>
+    </ClCompile>
+    <ClCompile Include="GLEE\GLee.c">
+      <Filter>GLEE</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Math\COLOR.cpp">
+      <Filter>源文件\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Math\MATRIX4X4.cpp">
+      <Filter>源文件\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Math\PLANE.cpp">
+      <Filter>源文件\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Math\VECTOR2D.cpp">
+      <Filter>源文件\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Math\VECTOR3D.cpp">
+      <Filter>源文件\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Math\VECTOR4D.cpp">
+      <Filter>源文件\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Others\obj3dmodel.cpp">
+      <Filter>源文件\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Build\model.cpp">
+      <Filter>源文件\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Others\texture.cpp">
+      <Filter>源文件\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="CG-Final\Others\material.cpp">
+      <Filter>源文件\Others</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CG-Final\main.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Build\ball.h">
+      <Filter>头文件\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Build\cube.h">
+      <Filter>头文件\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Build\cylin.h">
+      <Filter>头文件\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Build\pyram.h">
+      <Filter>头文件\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Others\ParticleSystem.h">
+      <Filter>头文件\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Others\PhysicsEngine.h">
+      <Filter>头文件\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="GLEE\GLee.h">
+      <Filter>GLEE</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\ARB_multitexture_extension.h">
+      <Filter>EXT</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\EXT_texture_env_combine_extension.h">
+      <Filter>EXT</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\wglext.h">
+      <Filter>EXT\GLEXT</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\glext.h">
+      <Filter>EXT\GLEXT</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Math\PLANE.h">
+      <Filter>头文件\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Math\VECTOR2D.h">
+      <Filter>头文件\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Math\VECTOR3D.h">
+      <Filter>头文件\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Math\VECTOR4D.h">
+      <Filter>头文件\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Math\COLOR.h">
+      <Filter>头文件\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Math\Maths.h">
+      <Filter>头文件\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Math\MATRIX4X4.h">
+      <Filter>头文件\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Others\obj3dmodel.h">
+      <Filter>头文件\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Build\model.h">
+      <Filter>头文件\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Others\material.h">
+      <Filter>头文件\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="CG-Final\Others\texture.h">
+      <Filter>头文件\Others</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

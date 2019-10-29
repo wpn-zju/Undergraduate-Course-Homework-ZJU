@@ -1,0 +1,1 @@
+Requirements: Downsampling and Interpolation using NN/Bilinear/BiCubic algorithms.
