@@ -2,3 +2,4 @@
 *.h linguist-language=C
 *.cpp linguist-language=C++
 *.hpp linguist-language=C++
+*.v linguist-language=Verilog
