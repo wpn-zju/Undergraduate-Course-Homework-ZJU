@@ -6,18 +6,17 @@
 #include <map>
 #include <ctime>
 #include <stdlib.h>
-using namespace std;
 
-class Diary{
-	public:
-		Diary();
-		~Diary();
-		static int getTime();
-		void pdadd(int date, string data);
-		void pdlist(int begin = 0, int end = 99999999);
-		void pdshow(int date);
-		int pdremove(int date);
-	private:
-		map<int,string> entities;
-}; 
+class Diary {
+public:
+	Diary();
+	~Diary();
+	static int getTime();
+	void pdadd(int date, std::string data);
+	void pdlist(int begin = 0, int end = 99999999);
+	void pdshow(int date);
+	int pdremove(int date);
+private:
+	std::map<int, std::string> entities;
+};
 #endif

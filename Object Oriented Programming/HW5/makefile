@@ -1,6 +1,5 @@
-main.exe: main.o
-	g++ -o main.exe main.o
-main.o: Fraction.o
-	g++ -c main.cpp
-Fraction.o: Fraction.h
+all: Fraction.o main
+main:
+	g++ -o main main.cpp Fraction.o
+Fraction.o:
 	g++ -c Fraction.cpp

@@ -1,26 +1,28 @@
 #include "Fraction.h"
 
+using namespace std;
+
 int GetGcd(int a, int b)
 {
-	if(a<0)
-		return GetGcd(-a,b);
-	else if(b<0)
-		return GetGcd(a,-b);
-    else if(a>b)
-		return GetGcd(b,a);
-    else if(a==b||a==0)
+	if (a < 0)
+		return GetGcd(-a, b);
+	else if (b < 0)
+		return GetGcd(a, -b);
+	else if (a > b)
+		return GetGcd(b, a);
+	else if (a == b || a == 0)
 		return b;
-    else
-		return GetGcd(a,b%a);
+	else
+		return GetGcd(a, b%a);
 }
 
 void Fraction::Reduction()
 {
 	int gcd = GetGcd(numerator, denominator);
-	if(numerator<0 && denominator<0)
+	if (numerator < 0 && denominator < 0)
 		gcd *= -1;
-	numerator/=gcd;
-	denominator/=gcd;
+	numerator /= gcd;
+	denominator /= gcd;
 	return;
 }
 
@@ -42,17 +44,17 @@ Fraction::Fraction(const Fraction& that)
 {
 	numerator = that.numerator;
 	denominator = that.denominator;
-	Reduction(); 
+	Reduction();
 }
 
 const Fraction Fraction::operator+ (const Fraction& that) const
 {
-	return Fraction(numerator*that.denominator+denominator*that.numerator, denominator*that.denominator);
+	return Fraction(numerator*that.denominator + denominator * that.numerator, denominator*that.denominator);
 }
 
 const Fraction Fraction::operator- (const Fraction& that) const
 {
-	return Fraction(numerator*that.denominator-denominator*that.numerator, denominator*that.denominator);
+	return Fraction(numerator*that.denominator - denominator * that.numerator, denominator*that.denominator);
 }
 
 const Fraction Fraction::operator* (const Fraction& that) const
@@ -67,7 +69,7 @@ const Fraction Fraction::operator/ (const Fraction& that) const
 
 bool Fraction::operator<  (const Fraction& that) const
 {
-	return numerator*that.denominator > denominator*that.numerator;
+	return numerator * that.denominator > denominator*that.numerator;
 }
 
 bool Fraction::operator<= (const Fraction& that) const
@@ -103,10 +105,10 @@ Fraction::operator double()
 string Fraction::ToString()
 {
 	string output;
-    stringstream temp;
-    temp << numerator << "/" << denominator;
-    temp >> output;
-    return output;
+	stringstream temp;
+	temp << numerator << "/" << denominator;
+	temp >> output;
+	return output;
 }
 
 istream& operator>> (istream& is, Fraction& obj)

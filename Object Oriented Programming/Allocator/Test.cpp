@@ -5,6 +5,8 @@
 #include <limits>
 #include "Allocator.h"
 
+// #define output
+
 template<class T>
 //using MyAllocator = std::allocator<T>;
 using MyAllocator = My_Allocator<T>;
@@ -55,20 +57,24 @@ int main()
 		int idx1 = largedis(gen) - 1;
 		int idx2 = vecints[idx1].size() / 2;
 		vecints[idx1][idx2] = val;
-		//if (vecints[idx1][idx2] == val)
-			//std::cout << "correct assignment in vecints: " << idx1 << std::endl;
-		//else
-			//std::cout << "incorrect assignment in vecints: " << idx1 << std::endl;
+#ifdef output
+		if (vecints[idx1][idx2] == val)
+			std::cout << "correct assignment in vecints: " << idx1 << std::endl;
+		else
+			std::cout << "incorrect assignment in vecints: " << idx1 << std::endl;
+#endif
 	}
 	{
 		Point2D val(11, 15);
 		int idx1 = largedis(gen) - 1;
 		int idx2 = vecpts[idx1].size() / 2;
 		vecpts[idx1][idx2] = val;
-		//if (vecpts[idx1][idx2] == val)
-			//std::cout << "correct assignment in vecpts: " << idx1 << std::endl;
-		//else
-			//std::cout << "incorrect assignment in vecpts: " << idx1 << std::endl;
+#ifdef output
+		if (vecpts[idx1][idx2] == val)
+			std::cout << "correct assignment in vecpts: " << idx1 << std::endl;
+		else
+			std::cout << "incorrect assignment in vecpts: " << idx1 << std::endl;
+#endif
 	}
 
 	auto end = std::chrono::high_resolution_clock::now();

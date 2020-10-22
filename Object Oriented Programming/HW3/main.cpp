@@ -1,9 +1,9 @@
-#include "castle.cpp"
+#include "castle.h"
 
-int main ()
+int main()
 {
 	Castle castle;
 	castle.run();
-	
+
 	return 0;
 }

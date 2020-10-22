@@ -3,7 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-using namespace std;
 
 class Fraction
 {
@@ -26,9 +25,9 @@ class Fraction
 		bool operator>= (const Fraction& that) const;
 		bool operator>  (const Fraction& that) const;
 		operator double();
-		string ToString();
-		friend istream& operator>> (istream& is, Fraction& obj);
-		friend ostream& operator<< (ostream& is, Fraction& obj);
+		std::string ToString();
+		friend std::istream& operator>> (std::istream& is, Fraction& obj);
+		friend std::ostream& operator<< (std::ostream& is, Fraction& obj);
 		const Fraction operator+= (const Fraction& that);
 		const Fraction operator-= (const Fraction& that);
 		const Fraction operator*= (const Fraction& that);

@@ -3,20 +3,21 @@
 #include <string>
 #include <vector>
 #include "student.h"
+
 using namespace std;
 
-int main(){
+int main() {
 	vector<Student> stuVec;
 	string stuName;
 	string name;
 	int score;
-	
+
 	ifstream data("data.txt");
-	while(1){
-		if(data >> stuName){
+	while (1) {
+		if (data >> stuName) {
 			Student Stu(stuName);
 			data >> name;
-			while(name != "end"){
+			while (name != "end") {
 				data >> score;
 				Stu.addCourse(name, score);
 				data >> name;
@@ -26,10 +27,9 @@ int main(){
 		else
 			break;
 	}
-	for(int i = 0; i < stuVec.size(); i++)
+	for (int i = 0; i < stuVec.size(); i++)
 		stuVec[i].print();
 	stuVec.clear();
-	getchar(); 
+	getchar();
 	return 0;
 }
-

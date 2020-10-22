@@ -1,18 +1,18 @@
-#include "diary.cpp"
+#include "diary.h"
 
 int main(int argc, char** argv)
 {
 	Diary diary;
-	string text;
-	string temp;
-	getline(cin, temp);
-	while(temp!="." && !cin.eof()){
+	std::string text;
+	std::string temp;
+	std::getline(std::cin, temp);
+	while (temp != "." && !std::cin.eof()) {
 		text += temp;
 		text += '\n';
-		getline(cin, temp);
+		std::getline(std::cin, temp);
 	}
-	text = text.substr(0,text.length()-1);
-	diary.pdadd(Diary::getTime(),text);
-	
-	return 0; 
+	text = text.substr(0, text.length() - 1);
+	diary.pdadd(Diary::getTime(), text);
+
+	return 0;
 }

@@ -1,16 +1,16 @@
-#include "diary.cpp"
+#include "diary.h"
 
 int main(int argc, char** argv)
 {
 	Diary diary;
-	if(argc == 3){
+	if (argc == 3) {
 		int begin = atoi(argv[1]);
-		int end = atoi(argv[2]); 
-		diary.pdlist(begin,end);
+		int end = atoi(argv[2]);
+		diary.pdlist(begin, end);
 	}
-	else{
+	else {
 		diary.pdlist();
 	}
-	
+
 	return 0;
 }
