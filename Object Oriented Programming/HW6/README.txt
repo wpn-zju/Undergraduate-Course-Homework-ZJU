@@ -1,17 +1,17 @@
 Vector<T>
-°üº¬ÒÔÏÂÊôĞÔºÍ·½·¨
+åŒ…å«ä»¥ä¸‹å±æ€§å’Œæ–¹æ³•
 public:
-Vector(); Ä¬ÈÏ¹¹Ôìº¯Êı
-Vector(int size); ÉùÃ÷´óĞ¡µÄ¹¹Ôìº¯Êı
-Vector(const Vector& r); ¿½±´¹¹Ôìº¯Êı
-virtual ~Vector(); Îö¹¹º¯Êı
-T& operator[](int index) : throw(IndexOutofBounds); ÔËËã·ûÖØÔØ µ÷ÓÃÖµ ÏÂ±êÔ½½ç»áÅ×³öÒì³£IndexOutofBounds
-int size(); ·µ»ØVectorµÄ´óĞ¡
-int inflate(int addSize); À©³äVector Ôö¼ÓaddSize¸öÔªËØ¿Õ¼ä
+Vector(); é»˜è®¤æ„é€ å‡½æ•°
+Vector(int size); å£°æ˜å¤§å°çš„æ„é€ å‡½æ•°
+Vector(const Vector& r); æ‹·è´æ„é€ å‡½æ•°
+virtual ~Vector(); ææ„å‡½æ•°
+T& operator[](int index) : throw(IndexOutofBounds); è¿ç®—ç¬¦é‡è½½ è°ƒç”¨å€¼ ä¸‹æ ‡è¶Šç•Œä¼šæŠ›å‡ºå¼‚å¸¸IndexOutofBounds
+int size(); è¿”å›Vectorçš„å¤§å°
+int inflate(int addSize); æ‰©å……Vector å¢åŠ addSizeä¸ªå…ƒç´ ç©ºé—´
 private:
 T *m_pElements;
 int m_nSize;
 
-±àÒëÔËĞĞmain.cpp
+ç¼–è¯‘è¿è¡Œmain.cpp
 
-×¢£º×îºóÓĞÒ»¸öÒç³öÀı×ÓÃ»ÓĞ¼Ócatch¹Ê³ÌĞò»áÍ£Ö¹¹¤×÷¡£
+æ³¨ï¼šæœ€åæœ‰ä¸€ä¸ªæº¢å‡ºä¾‹å­æ²¡æœ‰åŠ catchæ•…ç¨‹åºä¼šåœæ­¢å·¥ä½œã€‚

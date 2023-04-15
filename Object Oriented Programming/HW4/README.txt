@@ -1,6 +1,6 @@
-±àÒëºóÉú³É4¸ö¿ÉÖ´ÐÐÎÄ¼þ
-pdadd.exe ÊäÈëÒ»ÌõÐÅÏ¢£¬ÒÔ'.'»òEOF½áÊø¡£
-pdlist.exe ÊäÈë²ÎÊý¿ªÊ¼Ê±¼äºÍ½áÊøÊ±¼ä£¬Êä³öÕâ¶ÎÊ±¼äÄÚËùÓÐµÄdiary£¬Èç²»ÊäÈë²ÎÊý£¬ÔòÊä³öÈ«²¿diary¡£
-pdremove.exe ÊäÈëÒ»¸öÊ±¼ä£¬É¾³ý¶ÔÓ¦µÄdiary¡£
-pdshow.exe ÊäÈëÒ»¸öÊ±¼ä£¬Êä³ö¶ÔÓ¦Ê±¼äµÄdiary£¬Èç²»ÊäÈë²ÎÊý£¬ÔòÊä³öµ±Ç°Ê±¼äµÄdiary
-diaryÐÅÏ¢¼ÇÂ¼ÔÚdiary.txtÎÄ¼þÖÐ
+ç¼–è¯‘åŽç”Ÿæˆ4ä¸ªå¯æ‰§è¡Œæ–‡ä»¶
+pdadd.exe è¾“å…¥ä¸€æ¡ä¿¡æ¯ï¼Œä»¥'.'æˆ–EOFç»“æŸã€‚
+pdlist.exe è¾“å…¥å‚æ•°å¼€å§‹æ—¶é—´å’Œç»“æŸæ—¶é—´ï¼Œè¾“å‡ºè¿™æ®µæ—¶é—´å†…æ‰€æœ‰çš„diaryï¼Œå¦‚ä¸è¾“å…¥å‚æ•°ï¼Œåˆ™è¾“å‡ºå…¨éƒ¨diaryã€‚
+pdremove.exe è¾“å…¥ä¸€ä¸ªæ—¶é—´ï¼Œåˆ é™¤å¯¹åº”çš„diaryã€‚
+pdshow.exe è¾“å…¥ä¸€ä¸ªæ—¶é—´ï¼Œè¾“å‡ºå¯¹åº”æ—¶é—´çš„diaryï¼Œå¦‚ä¸è¾“å…¥å‚æ•°ï¼Œåˆ™è¾“å‡ºå½“å‰æ—¶é—´çš„diary
+diaryä¿¡æ¯è®°å½•åœ¨diary.txtæ–‡ä»¶ä¸­

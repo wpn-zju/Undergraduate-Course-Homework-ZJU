@@ -6,7 +6,7 @@
 using namespace std;
 using namespace cv;
 
-// ¶şÖµÍ¼Ïñ×ª»¯
+// äºŒå€¼å›¾åƒè½¬åŒ–
 void BinaryCheck(Mat& image, Mat& dst)
 {
 	for (int i = 0; i < image.rows; i++) {
@@ -21,7 +21,7 @@ void BinaryCheck(Mat& image, Mat& dst)
 	}
 }
 
-// ¸¯Ê´²Ù×÷
+// è…èš€æ“ä½œ
 void Erosion(Mat& image, Mat& eroded)
 {
 	for (int i = 0; i < image.rows; i++) {
@@ -36,7 +36,7 @@ void Erosion(Mat& image, Mat& eroded)
 	}
 }
 
-// ÅòÕÍ²Ù×÷
+// è†¨èƒ€æ“ä½œ
 void Dilation(Mat& image, Mat& dilated)
 {
 	for (int i = 0; i < image.rows; i++) {
@@ -51,7 +51,7 @@ void Dilation(Mat& image, Mat& dilated)
 	}
 }
 
-// Í¼ÏñÏà¼õ
+// å›¾åƒç›¸å‡
 void Difference(Mat& image1, Mat& image2, Mat& dst)
 {
 	for (int i = 0; i < image1.rows; i++) {
@@ -61,7 +61,7 @@ void Difference(Mat& image1, Mat& image2, Mat& dst)
 	}
 }
 
-// ¶şÖµÍ¼ÏñÌáÈ¡±ß½ç -> 3 * 3 Õı·½ĞÎÄ£°å
+// äºŒå€¼å›¾åƒæå–è¾¹ç•Œ -> 3 * 3 æ­£æ–¹å½¢æ¨¡æ¿
 void BorderCut(Mat& image, Mat& dst)
 {
 	Mat binary = Mat(image.size(), CV_8UC1);
@@ -71,7 +71,7 @@ void BorderCut(Mat& image, Mat& dst)
 	Difference(binary, eroded, dst);
 }
 
-// »Ò¶ÈÍ¼ÏñÇóĞÎÌ¬Ñ§Ìİ¶È -> 3 * 3 Õı·½ĞÎÄ£°å
+// ç°åº¦å›¾åƒæ±‚å½¢æ€å­¦æ¢¯åº¦ -> 3 * 3 æ­£æ–¹å½¢æ¨¡æ¿
 void MorphologicalGradient(Mat& image, Mat& dst)
 {
 	Mat dilated = Mat(image.size(), CV_8UC1);

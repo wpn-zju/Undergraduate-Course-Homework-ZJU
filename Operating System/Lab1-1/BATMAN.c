@@ -4,89 +4,89 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define MAX 100										// ×î´ó³µÁ¾Êı
-typedef enum directionT {South, East, North, West} direction;						// ·½ÏòÃ¶¾Ù
-typedef struct CarT										// ³µÁ¾½á¹¹Ìå
+#define MAX 100										// æœ€å¤§è½¦è¾†æ•°
+typedef enum directionT {South, East, North, West} direction;						// æ–¹å‘æšä¸¾
+typedef struct CarT										// è½¦è¾†ç»“æ„ä½“
 {	
-	int id;										// ³µÁ¾´úºÅ 
-	direction dir;									// ³µÁ¾´ú±íµÄ·½Ïò
+	int id;										// è½¦è¾†ä»£å· 
+	direction dir;									// è½¦è¾†ä»£è¡¨çš„æ–¹å‘
 } Car;
 
-// ËÄ¸ö·½ÏòµÄ³ö·¢ĞÅºÅ
+// å››ä¸ªæ–¹å‘çš„å‡ºå‘ä¿¡å·
 pthread_cond_t firstNorth;
 pthread_cond_t firstEast;
 pthread_cond_t firstSouth;
 pthread_cond_t firstWest;
 
-// ËÄ¸ö·½ÏòµÄÂ·¿Ú×ÊÔ´Ëø ºÍ³ö·¢ĞÅºÅ¶ÔÓ¦
+// å››ä¸ªæ–¹å‘çš„è·¯å£èµ„æºé” å’Œå‡ºå‘ä¿¡å·å¯¹åº”
 pthread_mutex_t source_north;
 pthread_mutex_t source_east;
 pthread_mutex_t source_south;
 pthread_mutex_t source_west;
 
-// ËÄ¸ö·½ÏòµÄ½øÈë×¼±¸³ö·¢Î»ÖÃµÄĞÅºÅ
+// å››ä¸ªæ–¹å‘çš„è¿›å…¥å‡†å¤‡å‡ºå‘ä½ç½®çš„ä¿¡å·
 pthread_cond_t queueNorth;
 pthread_cond_t queueEast;
 pthread_cond_t queueSouth;
 pthread_cond_t queueWest;
 
-// ËÄ¸ö·½Ïò×¼±¸Í¨ĞĞËø ºÍ×¼±¸³ö·¢ĞÅºÅ¶ÔÓ¦
+// å››ä¸ªæ–¹å‘å‡†å¤‡é€šè¡Œé” å’Œå‡†å¤‡å‡ºå‘ä¿¡å·å¯¹åº”
 pthread_mutex_t crossingNorth;
 pthread_mutex_t crossingEast;
 pthread_mutex_t crossingSouth;
 pthread_mutex_t crossingWest;
 
-// ËÀËøÓëËÀËøĞÅºÅ
+// æ­»é”ä¸æ­»é”ä¿¡å·
 pthread_cond_t deadlock;
 pthread_mutex_t wait_deadlock;
 
-// ËÄ¸ö·½ÏòµÄ³µÁ¾ÊıÍ³¼Æ
+// å››ä¸ªæ–¹å‘çš„è½¦è¾†æ•°ç»Ÿè®¡
 int count_North = 0;
 int count_East = 0;
 int count_South = 0;
 int count_West = 0;
 
-void *check_deadlock(void* c)									// ËÀËøÅĞ¶ÏÏß³Ì
+void *check_deadlock(void* c)									// æ­»é”åˆ¤æ–­çº¿ç¨‹
 {
 	while(1)
 	{
-		pthread_mutex_lock(&wait_deadlock);						// Ëø¶¨
-		pthread_cond_wait(&deadlock, &wait_deadlock);					// µÈ´ıËÀËø·¢Éú
+		pthread_mutex_lock(&wait_deadlock);						// é”å®š
+		pthread_cond_wait(&deadlock, &wait_deadlock);					// ç­‰å¾…æ­»é”å‘ç”Ÿ
 		
-		if(count_South > 0 && count_East > 0 && count_North > 0 && count_West > 0)		// ¸÷·½Ïò¶¼ÓĞ³µÔòËµÃ÷ËÀËø
+		if(count_South > 0 && count_East > 0 && count_North > 0 && count_West > 0)		// å„æ–¹å‘éƒ½æœ‰è½¦åˆ™è¯´æ˜æ­»é”
 		{
-			printf("DEADLOCK: car jam detected, signalling North to go.\n");		// ´òÓ¡ËÀËøÌáÊ¾
+			printf("DEADLOCK: car jam detected, signalling North to go.\n");		// æ‰“å°æ­»é”æç¤º
 			usleep(1);
-			pthread_cond_signal(&firstNorth);					// ÈÃ±±±ßµÄ³µÁ¾ÏÈĞĞ
+			pthread_cond_signal(&firstNorth);					// è®©åŒ—è¾¹çš„è½¦è¾†å…ˆè¡Œ
 		}
 		
-		pthread_mutex_unlock(&wait_deadlock);						// ½âËø
+		pthread_mutex_unlock(&wait_deadlock);						// è§£é”
 	}
 }
 
-// ×¢ÊÍ±±±ß³µÁ¾º¯Êı ÆäËû·½ÏòÍ¬Àí
+// æ³¨é‡ŠåŒ—è¾¹è½¦è¾†å‡½æ•° å…¶ä»–æ–¹å‘åŒç†
 void *car_from_north(void *c)
 {
-	pthread_mutex_lock(&crossingNorth);							// Ëø¶¨¸Ã·½Ïò×¼±¸Í¨ĞĞ
-	Car *car = (Car*)c;									// ´«Èë²ÎÊıÀàĞÍ×ª»»
-	pthread_cond_wait(&queueNorth, &crossingNorth);					// µÈ´ıÍ¨ĞĞĞÅºÅ
-	count_North += 1;									// ¸üĞÂ³µÁ¾ÊıÄ¿Í³¼Æ
-	printf("car %d from north arrives crossing\n", car->id);					// ´òÓ¡µ½´ïÌáÊ¾
+	pthread_mutex_lock(&crossingNorth);							// é”å®šè¯¥æ–¹å‘å‡†å¤‡é€šè¡Œ
+	Car *car = (Car*)c;									// ä¼ å…¥å‚æ•°ç±»å‹è½¬æ¢
+	pthread_cond_wait(&queueNorth, &crossingNorth);					// ç­‰å¾…é€šè¡Œä¿¡å·
+	count_North += 1;									// æ›´æ–°è½¦è¾†æ•°ç›®ç»Ÿè®¡
+	printf("car %d from north arrives crossing\n", car->id);					// æ‰“å°åˆ°è¾¾æç¤º
 	usleep(1);
-	pthread_mutex_unlock(&crossingNorth);							// ½â³ı¸Ã·½Ïò×¼±¸Í¨ĞĞËø¶¨ ¿ªÊ¼Í¨ĞĞ
-	pthread_mutex_lock(&source_north);							// Ëø¶¨¸Ã·½ÏòÍ¨ĞĞ×ÊÔ´Ëø
+	pthread_mutex_unlock(&crossingNorth);							// è§£é™¤è¯¥æ–¹å‘å‡†å¤‡é€šè¡Œé”å®š å¼€å§‹é€šè¡Œ
+	pthread_mutex_lock(&source_north);							// é”å®šè¯¥æ–¹å‘é€šè¡Œèµ„æºé”
 	if (count_West > 0)
 	{
-		pthread_cond_signal(&deadlock);						// Èç¹ûÓÒ±ßÓĞ³µ Ôò½øĞĞËÀËøÅĞ¶Ï
-		pthread_cond_wait(&firstNorth, &source_north);					// Èç¹ûÓÒ±ßÓĞ³µ µÈ´ıÓÒ±ß³µÍ¨¹ıºó»½ĞÑ±¾³µ
+		pthread_cond_signal(&deadlock);						// å¦‚æœå³è¾¹æœ‰è½¦ åˆ™è¿›è¡Œæ­»é”åˆ¤æ–­
+		pthread_cond_wait(&firstNorth, &source_north);					// å¦‚æœå³è¾¹æœ‰è½¦ ç­‰å¾…å³è¾¹è½¦é€šè¿‡åå”¤é†’æœ¬è½¦
 	}
-	count_North--;									// ¸üĞÂ³µÁ¾ÊıÄ¿Í³¼Æ
-	printf("car %d from north leaving crossing\n", car->id);					// ´òÓ¡Àë¿ªÌáÊ¾
-	pthread_mutex_unlock(&source_north);							// ½â³ı¸Ã·½ÏòÍ¨ĞĞ×ÊÔ´Ëø Àë¿ªÂ·¿Ú
-	pthread_cond_signal(&firstEast);							// ·¢ËÍĞÅºÅ»½ĞÑ ×ó±ßµÄ³µ£¨Èç¹ûÓĞ£©
+	count_North--;									// æ›´æ–°è½¦è¾†æ•°ç›®ç»Ÿè®¡
+	printf("car %d from north leaving crossing\n", car->id);					// æ‰“å°ç¦»å¼€æç¤º
+	pthread_mutex_unlock(&source_north);							// è§£é™¤è¯¥æ–¹å‘é€šè¡Œèµ„æºé” ç¦»å¼€è·¯å£
+	pthread_cond_signal(&firstEast);							// å‘é€ä¿¡å·å”¤é†’ å·¦è¾¹çš„è½¦ï¼ˆå¦‚æœæœ‰ï¼‰
 	usleep(1);
-	pthread_cond_signal(&queueNorth);							// »½ĞÑÍ¬·½Ïò¶ÓÁĞµÄÏÂÒ»Á¾³µ
-	pthread_exit(NULL);									// Àë¿ªÏß³Ì
+	pthread_cond_signal(&queueNorth);							// å”¤é†’åŒæ–¹å‘é˜Ÿåˆ—çš„ä¸‹ä¸€è¾†è½¦
+	pthread_exit(NULL);									// ç¦»å¼€çº¿ç¨‹
 }
 
 void *car_from_east(void *c)
@@ -163,7 +163,7 @@ void *car_from_west(void *c)
 
 int main(int argc, char *argv[])
 {
-	// ³õÊ¼»¯
+	// åˆå§‹åŒ–
 	pthread_mutex_init(&source_north, NULL);
 	pthread_mutex_init(&source_east, NULL);
 	pthread_mutex_init(&source_south, NULL);
@@ -191,9 +191,9 @@ int main(int argc, char *argv[])
 	pthread_t car_threads[MAX];
 
 	pthread_t check;
-	pthread_create(&check, NULL, check_deadlock, NULL);					// ´´½¨ËÀËø¼ì²âÏß³Ì
+	pthread_create(&check, NULL, check_deadlock, NULL);					// åˆ›å»ºæ­»é”æ£€æµ‹çº¿ç¨‹
 	
-	for (int i = 0; i < strlen(argv[1]); i++)							// ±éÀúÊäÈë×Ö·û´®²¢´´½¨¶ÔÓ¦Ïß³Ì
+	for (int i = 0; i < strlen(argv[1]); i++)							// éå†è¾“å…¥å­—ç¬¦ä¸²å¹¶åˆ›å»ºå¯¹åº”çº¿ç¨‹
 	{
 		cars[i].id = i + 1;
 		switch (argv[1][i]) 
@@ -222,12 +222,12 @@ int main(int argc, char *argv[])
 	}
 	usleep(1);
 
-	// Ìá¹©³õÊ¼ĞÅºÅ
+	// æä¾›åˆå§‹ä¿¡å·
 	pthread_cond_signal(&queueNorth);
 	pthread_cond_signal(&queueEast);	
 	pthread_cond_signal(&queueSouth);	
 	pthread_cond_signal(&queueWest);	
 	
 	for (int i = 0; i < strlen(argv[1]); i++) 
-		pthread_join(car_threads[i], NULL);						// µÈ´ıÈ«²¿³µÁ¾Ïß³Ì½áÊø
+		pthread_join(car_threads[i], NULL);						// ç­‰å¾…å…¨éƒ¨è½¦è¾†çº¿ç¨‹ç»“æŸ
 }

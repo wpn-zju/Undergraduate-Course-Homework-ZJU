@@ -11,40 +11,40 @@ int main()
 	Mat image = imread("lena.png", CV_8UC1);
 	imshow("origin", image);
 
-	// »ñÈ¡×î¼Ñ¸µÀïÒ¶±ä»»³ß´ç
+	// è·å–æœ€ä½³å‚…é‡Œå¶å˜æ¢å°ºå¯¸
 	int optM = getOptimalDFTSize(image.rows);
 	int optN = getOptimalDFTSize(image.cols);
 
-	// ±ß½çÀ©Õ¹
+	// è¾¹ç•Œæ‰©å±•
 	Mat expandedImage;
 	copyMakeBorder(image, expandedImage, 0, optM - image.rows, 0, optM - image.cols, BORDER_CONSTANT, Scalar::all(0));
 	
-	// ×ª³É¸¡µãÍ¼Ïñ
+	// è½¬æˆæµ®ç‚¹å›¾åƒ
 	expandedImage.convertTo(expandedImage, CV_32FC1);
 
-	// Ê¹ÆµÆ×Æ½ÒÆµ½ÖĞĞÄ
+	// ä½¿é¢‘è°±å¹³ç§»åˆ°ä¸­å¿ƒ
 	for (int i = 0; i < expandedImage.rows; i++) {
 		for (int j = 0; j < expandedImage.cols; j++) {
 			expandedImage.at<float>(i,j) *= (float)pow(-1, i + j);
 		}
 	}
 
-	// ½¨Á¢Ë«Í¨µÀ£¨Êµ²¿ÓëĞé²¿£©Í¼Ïñ
+	// å»ºç«‹åŒé€šé“ï¼ˆå®éƒ¨ä¸è™šéƒ¨ï¼‰å›¾åƒ
 	Mat planes[] = { Mat_<float>(expandedImage),Mat::zeros(expandedImage.size(),CV_32FC1) };
 
-	// ºÏ³ÉË«Í¨µÀ
+	// åˆæˆåŒé€šé“
 	Mat complexImage;
 	merge(planes, 2, complexImage);
 
-	// ¶ÔË«Í¨µÀÍ¼Ïñ½øĞĞ¸µÀïÒ¶±ä»»
+	// å¯¹åŒé€šé“å›¾åƒè¿›è¡Œå‚…é‡Œå¶å˜æ¢
 	dft(complexImage, complexImage);
 
-	// ¶¨ÒåGauss±ä»»¾ØÕó
+	// å®šä¹‰Gausså˜æ¢çŸ©é˜µ
 	Mat gaussianBlur(expandedImage.size(), CV_32FC2);
 	Mat gaussianSharpen(expandedImage.size(), CV_32FC2);
 
-	float D01 = 64; // ¸ßË¹µÍÍ¨ÂË²¨Æ÷½ØÖ¹ÆµÂÊ
-	float D02 = 64; // ¸ßË¹¸ßÍ¨ÂË²¨Æ÷½ØÖ¹ÆµÂÊ
+	float D01 = 64; // é«˜æ–¯ä½é€šæ»¤æ³¢å™¨æˆªæ­¢é¢‘ç‡
+	float D02 = 64; // é«˜æ–¯é«˜é€šæ»¤æ³¢å™¨æˆªæ­¢é¢‘ç‡
 	for (int i = 0; i < expandedImage.rows; i++) {
 		for (int j = 0; j < expandedImage.cols; j++) {
 			float D = (float)pow(i - expandedImage.rows / 2, 2) + (float)pow(j - expandedImage.cols / 2, 2);
@@ -55,10 +55,10 @@ int main()
 		}
 	}
 
-	multiply(complexImage, gaussianBlur, gaussianBlur); // ¸ßË¹µÍÍ¨ÂË²¨Ä£ºıÍ¼Ïñ
-	multiply(gaussianBlur, gaussianSharpen, gaussianSharpen); //¸ßË¹¸ßÍ¨ÂË²¨¶ÔÄ£ºıÍ¼Ïñ»¹Ô­
+	multiply(complexImage, gaussianBlur, gaussianBlur); // é«˜æ–¯ä½é€šæ»¤æ³¢æ¨¡ç³Šå›¾åƒ
+	multiply(gaussianBlur, gaussianSharpen, gaussianSharpen); //é«˜æ–¯é«˜é€šæ»¤æ³¢å¯¹æ¨¡ç³Šå›¾åƒè¿˜åŸ
 
-	// Ô­Í¼ÏñÆµÆ×
+	// åŸå›¾åƒé¢‘è°±
 	split(complexImage, planes);
 	magnitude(planes[0], planes[1], planes[0]);
 	planes[0] += Scalar::all(1);
@@ -68,7 +68,7 @@ int main()
 	normalize(planes[0], planes[0], 255, 0, CV_MINMAX);
 	imwrite("spect origin.png", planes[0]);
 
-	// Ä£ºıÍ¼ÏñÆµÆ×
+	// æ¨¡ç³Šå›¾åƒé¢‘è°±
 	split(gaussianBlur, planes);
 	magnitude(planes[0], planes[1], planes[0]);
 	planes[0] += Scalar::all(1);
@@ -78,7 +78,7 @@ int main()
 	normalize(planes[0], planes[0], 255, 0, CV_MINMAX);
 	imwrite("spect gaussianBlur.png", planes[0]);
 
-	// Ä£ºı»¹Ô­ºóÍ¼ÏñÆµÆ×
+	// æ¨¡ç³Šè¿˜åŸåå›¾åƒé¢‘è°±
 	split(gaussianSharpen, planes);
 	magnitude(planes[0], planes[1], planes[0]);
 	planes[0] += Scalar::all(1);
@@ -88,7 +88,7 @@ int main()
 	normalize(planes[0], planes[0], 255, 0, CV_MINMAX);
 	imwrite("spect gaussianSharpen.png", planes[0]);
 
-	// Ä£ºıºóÍ¼Ïñ
+	// æ¨¡ç³Šåå›¾åƒ
 	idft(gaussianBlur, gaussianBlur);
 	split(gaussianBlur, planes);
 	magnitude(planes[0], planes[1], planes[0]);
@@ -97,7 +97,7 @@ int main()
 	normalize(planes[0], planes[0], 255, 0, CV_MINMAX);
 	imwrite("gaussian Blurred.png", planes[0]);
 
-	// Ä£ºı»¹Ô­ºóÍ¼Ïñ
+	// æ¨¡ç³Šè¿˜åŸåå›¾åƒ
 	idft(gaussianSharpen, gaussianSharpen);
 	split(gaussianSharpen, planes);
 	magnitude(planes[0], planes[1], planes[0]);

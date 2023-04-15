@@ -6,10 +6,10 @@
 using namespace std;
 using namespace cv;
 
-float sigma = 0.002f; // ¸ßË¹°×ÔëÉù·½²î
-float K = 0.002f; // Î¬ÄÉÂË²¨ÏµÊı
+float sigma = 0.002f; // é«˜æ–¯ç™½å™ªå£°æ–¹å·®
+float K = 0.002f; // ç»´çº³æ»¤æ³¢ç³»æ•°
 
-// ÀûÓÃBox - MullerËã·¨²úÉú¸ßË¹Ëæ»úÊı
+// åˆ©ç”¨Box - Mullerç®—æ³•äº§ç”Ÿé«˜æ–¯éšæœºæ•°
 float GenerateGaussianNoise()
 {
 	static bool flag = false;
@@ -49,39 +49,39 @@ void AddGaussianNoise(Mat& Image)
 
 int main()
 {
-	Mat image = imread("Ô­Í¼Ïñ.png", CV_8UC1);
+	Mat image = imread("åŸå›¾åƒ.png", CV_8UC1);
 
-	// »ñÈ¡×î¼Ñ¸µÀïÒ¶±ä»»³ß´ç
+	// è·å–æœ€ä½³å‚…é‡Œå¶å˜æ¢å°ºå¯¸
 	int optM = getOptimalDFTSize(image.rows);
 	int optN = getOptimalDFTSize(image.cols);
 	
-	// ±ß½çÀ©Õ¹
+	// è¾¹ç•Œæ‰©å±•
 	Mat expandedImage;
 	copyMakeBorder(image, expandedImage, 0, optM - image.rows, 0, optM - image.cols, BORDER_CONSTANT, Scalar::all(0));
 
-	// ×ª³É¸¡µãÍ¼Ïñ
+	// è½¬æˆæµ®ç‚¹å›¾åƒ
 	expandedImage.convertTo(expandedImage, CV_32FC1);
 	normalize(expandedImage, expandedImage, 1, 0, CV_C);
-	imshow("Ô­Í¼Ïñ", expandedImage);
+	imshow("åŸå›¾åƒ", expandedImage);
 
-	// Ê¹ÆµÆ×Æ½ÒÆµ½ÖĞĞÄ
+	// ä½¿é¢‘è°±å¹³ç§»åˆ°ä¸­å¿ƒ
 	for (int i = 0; i < expandedImage.rows; i++) {
 		for (int j = 0; j < expandedImage.cols; j++) {
 			expandedImage.at<float>(i, j) *= (float)pow(-1, i + j);
 		}
 	}
 
-	// ½¨Á¢Ë«Í¨µÀ£¨Êµ²¿ÓëĞé²¿£©Í¼Ïñ
+	// å»ºç«‹åŒé€šé“ï¼ˆå®éƒ¨ä¸è™šéƒ¨ï¼‰å›¾åƒ
 	Mat planes[] = { Mat_<float>(expandedImage),Mat::zeros(expandedImage.size(),CV_32FC1) };
 
-	// ºÏ³ÉË«Í¨µÀ
+	// åˆæˆåŒé€šé“
 	Mat complexImage;
 	merge(planes, 2, complexImage);
 
-	// ¶ÔË«Í¨µÀÍ¼Ïñ½øĞĞ¸µÀïÒ¶±ä»»
+	// å¯¹åŒé€šé“å›¾åƒè¿›è¡Œå‚…é‡Œå¶å˜æ¢
 	dft(complexImage, complexImage);
 
-	// ¶¨ÒåÔË¶¯Ä£ºı±ä»»¾ØÕó
+	// å®šä¹‰è¿åŠ¨æ¨¡ç³Šå˜æ¢çŸ©é˜µ
 	Mat Motion(expandedImage.size(), CV_32FC2);
 	Mat DeMotion(expandedImage.size(), CV_32FC2);
 
@@ -105,12 +105,12 @@ int main()
 				Motion.at<Vec2f>(i, j)[1] = T / temp * (float)sin(temp)*(float)cos(temp);
 				DeMotion.at<Vec2f>(i, j)[0] = T / temp * (float)sin(temp)*(float)cos(temp);
 				DeMotion.at<Vec2f>(i, j)[1] = T / temp * (float)sin(temp)*(float)cos(temp);
-				// ÂË²¨ãĞÖµ
+				// æ»¤æ³¢é˜ˆå€¼
 				if (Motion.at<Vec2f>(i, j)[0] < CutOffBlur) {
 					Motion.at<Vec2f>(i, j)[0] = CutOffBlur;
 					Motion.at<Vec2f>(i, j)[1] = CutOffBlur;
 				}
-				// ÂË²¨ãĞÖµ
+				// æ»¤æ³¢é˜ˆå€¼
 				if (DeMotion.at<Vec2f>(i, j)[0] < CutOffDeblur) {
 					DeMotion.at<Vec2f>(i, j)[0] = CutOffDeblur;
 					DeMotion.at<Vec2f>(i, j)[1] = CutOffDeblur;
@@ -119,71 +119,71 @@ int main()
 		}
 	}
 
-	Mat Blurred(expandedImage.size(), CV_32FC2);  // Ä£ºıÆµÆ×
-	Mat BlurredWithNoise(expandedImage.size(), CV_32FC2); // Ä£ºı´øÔëÉùÆµÆ×
-	Mat BlurredImage(expandedImage.size(), CV_32FC1); // Ä£ºıÍ¼Ïñ
-	Mat BlurredWithNoiseImage(expandedImage.size(), CV_32FC1); // Ä£ºı´øÔëÉùÍ¼Ïñ
-	Mat Deblurred(expandedImage.size(), CV_32FC2);  // Ä£ºıÄæÂË²¨ÆµÆ×
-	Mat DeblurredWithNoise(expandedImage.size(), CV_32FC2); // Ä£ºı´øÔëÉùÄæÂË²¨ÆµÆ×
-	Mat DeblurredImage(expandedImage.size(), CV_32FC1); // Ä£ºıÄæÂË²¨Í¼Ïñ
-	Mat DeblurredWithNoiseImage(expandedImage.size(), CV_32FC1); // Ä£ºı´øÔëÉùÄæÂË²¨Í¼Ïñ
-	Mat DeblurredWiener(expandedImage.size(), CV_32FC2);  // Ä£ºıÎ¬ÄÉÂË²¨ÆµÆ×
-	Mat DeblurredWienerWithNoise(expandedImage.size(), CV_32FC2); // Ä£ºı´øÔëÉùÎ¬ÄÉÂË²¨ÆµÆ×
-	Mat DeblurredWienerImage(expandedImage.size(), CV_32FC1); // Ä£ºıÎ¬ÄÉÂË²¨Í¼Ïñ
-	Mat DeblurredWienerWithNoiseImage(expandedImage.size(), CV_32FC1); // Ä£ºı´øÔëÉùÎ¬ÄÉÂË²¨Í¼Ïñ
+	Mat Blurred(expandedImage.size(), CV_32FC2);  // æ¨¡ç³Šé¢‘è°±
+	Mat BlurredWithNoise(expandedImage.size(), CV_32FC2); // æ¨¡ç³Šå¸¦å™ªå£°é¢‘è°±
+	Mat BlurredImage(expandedImage.size(), CV_32FC1); // æ¨¡ç³Šå›¾åƒ
+	Mat BlurredWithNoiseImage(expandedImage.size(), CV_32FC1); // æ¨¡ç³Šå¸¦å™ªå£°å›¾åƒ
+	Mat Deblurred(expandedImage.size(), CV_32FC2);  // æ¨¡ç³Šé€†æ»¤æ³¢é¢‘è°±
+	Mat DeblurredWithNoise(expandedImage.size(), CV_32FC2); // æ¨¡ç³Šå¸¦å™ªå£°é€†æ»¤æ³¢é¢‘è°±
+	Mat DeblurredImage(expandedImage.size(), CV_32FC1); // æ¨¡ç³Šé€†æ»¤æ³¢å›¾åƒ
+	Mat DeblurredWithNoiseImage(expandedImage.size(), CV_32FC1); // æ¨¡ç³Šå¸¦å™ªå£°é€†æ»¤æ³¢å›¾åƒ
+	Mat DeblurredWiener(expandedImage.size(), CV_32FC2);  // æ¨¡ç³Šç»´çº³æ»¤æ³¢é¢‘è°±
+	Mat DeblurredWienerWithNoise(expandedImage.size(), CV_32FC2); // æ¨¡ç³Šå¸¦å™ªå£°ç»´çº³æ»¤æ³¢é¢‘è°±
+	Mat DeblurredWienerImage(expandedImage.size(), CV_32FC1); // æ¨¡ç³Šç»´çº³æ»¤æ³¢å›¾åƒ
+	Mat DeblurredWienerWithNoiseImage(expandedImage.size(), CV_32FC1); // æ¨¡ç³Šå¸¦å™ªå£°ç»´çº³æ»¤æ³¢å›¾åƒ
 
 	split(complexImage, planes);
 	magnitude(planes[0], planes[1], planes[0]);
 	planes[0] += Scalar::all(1);
 	log(planes[0], planes[0]);
 	normalize(planes[0], planes[0], 1, 0, CV_C);
-	imshow("Ô­Í¼ÏñÆµÆ×", planes[0]);
+	imshow("åŸå›¾åƒé¢‘è°±", planes[0]);
 	normalize(planes[0], planes[0], 255, 0, CV_C);
-	imwrite("Ô­Í¼ÏñÆµÆ×.png", planes[0]);
+	imwrite("åŸå›¾åƒé¢‘è°±.png", planes[0]);
 
-	multiply(complexImage, Motion, Blurred); // ¼ÓÈëÔË¶¯Ä£ºı
+	multiply(complexImage, Motion, Blurred); // åŠ å…¥è¿åŠ¨æ¨¡ç³Š
 	
 	split(Blurred, planes);
 	magnitude(planes[0], planes[1], planes[0]);
 	planes[0] += Scalar::all(1);
 	log(planes[0], planes[0]);
 	normalize(planes[0], planes[0], 1, 0, CV_C);
-	imshow("Ä£ºıÍ¼ÏñÆµÆ×", planes[0]);
+	imshow("æ¨¡ç³Šå›¾åƒé¢‘è°±", planes[0]);
 	normalize(planes[0], planes[0], 255, 0, CV_C);
-	imwrite("Ä£ºıÍ¼ÏñÆµÆ×.png", planes[0]);
+	imwrite("æ¨¡ç³Šå›¾åƒé¢‘è°±.png", planes[0]);
 
-	divide(Blurred, DeMotion, Deblurred); // ½âÔË¶¯Ä£ºı
+	divide(Blurred, DeMotion, Deblurred); // è§£è¿åŠ¨æ¨¡ç³Š
 
 	split(Deblurred, planes);
 	magnitude(planes[0], planes[1], planes[0]);
 	planes[0] += Scalar::all(1);
 	log(planes[0], planes[0]);
 	normalize(planes[0], planes[0], 1, 0, CV_C);
-	imshow("Ö±½Ó½âÄ£ºıÍ¼ÏñÆµÆ×", planes[0]);
+	imshow("ç›´æ¥è§£æ¨¡ç³Šå›¾åƒé¢‘è°±", planes[0]);
 	normalize(planes[0], planes[0], 255, 0, CV_C);
-	imwrite("Ö±½Ó½âÄ£ºıÍ¼ÏñÆµÆ×.png", planes[0]);
+	imwrite("ç›´æ¥è§£æ¨¡ç³Šå›¾åƒé¢‘è°±.png", planes[0]);
 
 	idft(Deblurred, Deblurred);
 	split(Deblurred, planes);
 	magnitude(planes[0], planes[1], DeblurredImage);
 	normalize(DeblurredImage, DeblurredImage, 1, 0, CV_C);
-	imshow("Ö±½Ó½âÄ£ºıÍ¼Ïñ", DeblurredImage);
+	imshow("ç›´æ¥è§£æ¨¡ç³Šå›¾åƒ", DeblurredImage);
 	normalize(DeblurredImage, DeblurredImage, 255, 0, CV_C);
-	imwrite("Ö±½Ó½âÄ£ºıÍ¼Ïñ.png", DeblurredImage);
+	imwrite("ç›´æ¥è§£æ¨¡ç³Šå›¾åƒ.png", DeblurredImage);
 
-	// ¼ÓÔëÉù
+	// åŠ å™ªå£°
 	idft(Blurred, Blurred);
 	split(Blurred, planes);
 	magnitude(planes[0], planes[1], BlurredImage);
 	normalize(BlurredImage, BlurredImage, 1, 0, CV_C);
-	imshow("Ä£ºıÍ¼Ïñ", BlurredImage);
+	imshow("æ¨¡ç³Šå›¾åƒ", BlurredImage);
 	BlurredImage.copyTo(BlurredWithNoiseImage);
 	AddGaussianNoise(BlurredWithNoiseImage);
-	imshow("´øÔëÉùÄ£ºıÍ¼Ïñ", BlurredWithNoiseImage);
+	imshow("å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒ", BlurredWithNoiseImage);
 	normalize(BlurredImage, BlurredImage, 255, 0, CV_C);
-	imwrite("Ä£ºıÍ¼Ïñ.png", BlurredImage);
+	imwrite("æ¨¡ç³Šå›¾åƒ.png", BlurredImage);
 	normalize(BlurredWithNoiseImage, BlurredWithNoiseImage, 255, 0, CV_C);
-	imwrite("´øÔëÉùÄ£ºıÍ¼Ïñ.png", BlurredWithNoiseImage);
+	imwrite("å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒ.png", BlurredWithNoiseImage);
 
 	for (int i = 0; i < BlurredWithNoiseImage.rows; i++) {
 		for (int j = 0; j < BlurredWithNoiseImage.cols; j++) {
@@ -202,9 +202,9 @@ int main()
 	planes[0] += Scalar::all(1);
 	log(planes[0], planes[0]);
 	normalize(planes[0], planes[0], 1, 0, CV_C);
-	imshow("´øÔëÉùÄ£ºıÍ¼ÏñÆµÆ×", planes[0]);
+	imshow("å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒé¢‘è°±", planes[0]);
 	normalize(planes[0], planes[0], 255, 0, CV_C);
-	imwrite("´øÔëÉùÄ£ºıÍ¼ÏñÆµÆ×.png", planes[0]);
+	imwrite("å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒé¢‘è°±.png", planes[0]);
 	
 	divide(BlurredWithNoise, DeMotion, DeblurredWithNoise);
 
@@ -213,20 +213,20 @@ int main()
 	planes[0] += Scalar::all(1);
 	log(planes[0], planes[0]);
 	normalize(planes[0], planes[0], 1, 0, CV_C);
-	imshow("½â´øÔëÉùÄ£ºıÍ¼ÏñÆµÆ×", planes[0]);
+	imshow("è§£å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒé¢‘è°±", planes[0]);
 	normalize(planes[0], planes[0], 255, 0, CV_C);
-	imwrite("½â´øÔëÉùÄ£ºıÍ¼ÏñÆµÆ×.png", planes[0]);
+	imwrite("è§£å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒé¢‘è°±.png", planes[0]);
 
 	idft(DeblurredWithNoise, DeblurredWithNoise);
 	split(DeblurredWithNoise, planes);
 	magnitude(planes[0], planes[1], DeblurredWithNoiseImage);
 	normalize(DeblurredWithNoiseImage, DeblurredWithNoiseImage, 1, 0, CV_C);
-	imshow("½â´øÔëÉùÄ£ºıÍ¼Ïñ", DeblurredWithNoiseImage);
+	imshow("è§£å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒ", DeblurredWithNoiseImage);
 	normalize(DeblurredWithNoiseImage, DeblurredWithNoiseImage, 255, 0, CV_C);
-	imwrite("½â´øÔëÉùÄ£ºıÍ¼Ïñ.png", DeblurredWithNoiseImage);
+	imwrite("è§£å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒ.png", DeblurredWithNoiseImage);
 
 	dft(Blurred, Blurred);
-	// Î¬ÄÉÂË²¨
+	// ç»´çº³æ»¤æ³¢
 	Mat temp(expandedImage.size(), CV_32FC2);
 	Mat MagTransform(expandedImage.size(), CV_32FC2);
 	for (int i = 0; i < MagTransform.rows; i++) {
@@ -245,34 +245,34 @@ int main()
 	planes[0] += Scalar::all(1);
 	log(planes[0], planes[0]);
 	normalize(planes[0], planes[0], 1, 0, CV_C);
-	imshow("Î¬ÄÉÂË²¨½âÄ£ºıÍ¼ÏñÆµÆ×", planes[0]);
+	imshow("ç»´çº³æ»¤æ³¢è§£æ¨¡ç³Šå›¾åƒé¢‘è°±", planes[0]);
 	normalize(planes[0], planes[0], 255, 0, CV_C);
-	imwrite("Î¬ÄÉÂË²¨½âÄ£ºıÍ¼ÏñÆµÆ×.png", planes[0]);
+	imwrite("ç»´çº³æ»¤æ³¢è§£æ¨¡ç³Šå›¾åƒé¢‘è°±.png", planes[0]);
 
 	idft(DeblurredWiener, DeblurredWiener);
 	split(DeblurredWiener, planes);
 	magnitude(planes[0], planes[1], DeblurredWienerImage);
 	normalize(DeblurredWienerImage, DeblurredWienerImage, 1, 0, CV_C);
-	imshow("Î¬ÄÉÂË²¨½âÄ£ºıÍ¼Ïñ", DeblurredWienerImage);
+	imshow("ç»´çº³æ»¤æ³¢è§£æ¨¡ç³Šå›¾åƒ", DeblurredWienerImage);
 	normalize(DeblurredWienerImage, DeblurredWienerImage, 255, 0, CV_C);
-	imwrite("Î¬ÄÉÂË²¨½âÄ£ºıÍ¼Ïñ.png", DeblurredWienerImage);
+	imwrite("ç»´çº³æ»¤æ³¢è§£æ¨¡ç³Šå›¾åƒ.png", DeblurredWienerImage);
 
 	split(DeblurredWienerWithNoise, planes);
 	magnitude(planes[0], planes[1], planes[0]);
 	planes[0] += Scalar::all(1);
 	log(planes[0], planes[0]);
 	normalize(planes[0], planes[0], 1, 0, CV_C);
-	imshow("Î¬ÄÉÂË²¨½â´øÔëÉùÄ£ºıÍ¼ÏñÆµÆ×", planes[0]);
+	imshow("ç»´çº³æ»¤æ³¢è§£å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒé¢‘è°±", planes[0]);
 	normalize(planes[0], planes[0], 255, 0, CV_C);
-	imwrite("Î¬ÄÉÂË²¨½â´øÔëÉùÄ£ºıÍ¼ÏñÆµÆ×.png", planes[0]);
+	imwrite("ç»´çº³æ»¤æ³¢è§£å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒé¢‘è°±.png", planes[0]);
 
 	idft(DeblurredWienerWithNoise, DeblurredWienerWithNoise);
 	split(DeblurredWienerWithNoise, planes);
 	magnitude(planes[0], planes[1], DeblurredWienerWithNoiseImage);
 	normalize(DeblurredWienerWithNoiseImage, DeblurredWienerWithNoiseImage, 1, 0, CV_C);
-	imshow("Î¬ÄÉÂË²¨½â´øÔëÉùÄ£ºıÍ¼Ïñ", DeblurredWienerWithNoiseImage);
+	imshow("ç»´çº³æ»¤æ³¢è§£å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒ", DeblurredWienerWithNoiseImage);
 	normalize(DeblurredWienerWithNoiseImage, DeblurredWienerWithNoiseImage, 255, 0, CV_C);
-	imwrite("Î¬ÄÉÂË²¨½â´øÔëÉùÄ£ºıÍ¼Ïñ.png", DeblurredWienerWithNoiseImage);
+	imwrite("ç»´çº³æ»¤æ³¢è§£å¸¦å™ªå£°æ¨¡ç³Šå›¾åƒ.png", DeblurredWienerWithNoiseImage);
 
 	waitKey();
 	return 0;

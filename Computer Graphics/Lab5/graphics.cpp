@@ -1,4 +1,4 @@
-// glutEx1.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+// glutEx1.cpp : å®šä¹‰æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 
 #include <stdlib.h>
 #include "gl/glut.h"
@@ -182,7 +182,7 @@ void redraw()
 
 	gluLookAt(eye[0], eye[1], eye[2],
 		center[0], center[1], center[2],
-		0, 1, 0);				// ³¡¾°£¨0£¬0£¬0£©µÄÊÓµãÖĞĞÄ (0,5,50)£¬YÖáÏòÉÏ
+		0, 1, 0);				// åœºæ™¯ï¼ˆ0ï¼Œ0ï¼Œ0ï¼‰çš„è§†ç‚¹ä¸­å¿ƒ (0,5,50)ï¼ŒYè½´å‘ä¸Š
 
 	if (bWire)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

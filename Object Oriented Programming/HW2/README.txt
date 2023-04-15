@@ -1,3 +1,3 @@
-dataÄÚ´æ·ÅÊı¾İ
-¸ñÊ½Îª name course1name course1score course2name course2score ... 
-ÒÔend½áÊøµ¥¸öÑ§ÉúĞÅÏ¢²¢½øÈëÏÂÒ»¸öÑ§ÉúÊäÈë
+dataå†…å­˜æ”¾æ•°æ®
+æ ¼å¼ä¸º name course1name course1score course2name course2score ... 
+ä»¥endç»“æŸå•ä¸ªå­¦ç”Ÿä¿¡æ¯å¹¶è¿›å…¥ä¸‹ä¸€ä¸ªå­¦ç”Ÿè¾“å…¥

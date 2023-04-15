@@ -6,18 +6,18 @@ using namespace std;
 using namespace cv;
 
 float addPerPoint = 0.01f;
-int houghNumber = 60; // ãĞÖµ Ã¿¸öµãÖµÎª0.01
+int houghNumber = 60; // é˜ˆå€¼ æ¯ä¸ªç‚¹å€¼ä¸º0.01
 
 class HoughPoint
 {
 public:
-	float angle; // ½Ç¶È
-	float radium; // °ë¾¶
+	float angle; // è§’åº¦
+	float radium; // åŠå¾„
 };
 
 int main()
 {
-	Mat beforeImage = imread("binary.png", CV_8UC1); // ÊäÈëÒ»ÕÅ¶şÖµÕı·½ĞÎÍ¼Ïñ
+	Mat beforeImage = imread("binary.png", CV_8UC1); // è¾“å…¥ä¸€å¼ äºŒå€¼æ­£æ–¹å½¢å›¾åƒ
 	Mat afterImage;
 	Mat houghImage = Mat((int)beforeImage.rows*1.5f, 314, CV_32FC1);
 	Mat houghImageAfterFilter = Mat((int)beforeImage.rows*1.5f, 314, CV_32FC1);

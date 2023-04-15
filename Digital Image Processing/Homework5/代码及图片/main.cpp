@@ -6,13 +6,13 @@
 using namespace std;
 using namespace cv;
 
-// ¸ßË¹°×ÔëÉù±ê×¼²î
+// é«˜æ–¯ç™½å™ªå£°æ ‡å‡†å·®
 float sigma = 0.1f;
 
-// ½·ÑÎÔëÉùµãÊı
+// æ¤’ç›å™ªå£°ç‚¹æ•°
 int number = 100000;
 
-// ÀûÓÃBox - MullerËã·¨²úÉú¸ßË¹Ëæ»úÊı
+// åˆ©ç”¨Box - Mullerç®—æ³•äº§ç”Ÿé«˜æ–¯éšæœºæ•°
 float GenerateGaussianNoise()
 {
 	static bool flag = false;
@@ -140,73 +140,73 @@ int main()
 	Mat image = imread("lena.png", CV_LOAD_IMAGE_UNCHANGED);
 	Mat channel[4]; // RGBA
 
-	// ·ÖÀëRGBAÆ½Ãæ
+	// åˆ†ç¦»RGBAå¹³é¢
 	split(image, channel);
 
-	// ×ª»»Í¼ÏñÀàĞÍ
+	// è½¬æ¢å›¾åƒç±»å‹
 	channel[0].convertTo(channel[0], CV_32FC1);
 	channel[1].convertTo(channel[1], CV_32FC1);
 	channel[2].convertTo(channel[2], CV_32FC1);
 
-	// ¹éÒ»»¯µ½[0,1]¸¡µãÊı
+	// å½’ä¸€åŒ–åˆ°[0,1]æµ®ç‚¹æ•°
 	normalize(channel[0], channel[0], 1, 0, CV_C);
 	normalize(channel[1], channel[1], 1, 0, CV_C);
 	normalize(channel[2], channel[2], 1, 0, CV_C);
 
 	imshow("Original", image);
 
-	// ·ÖÍ¨µÀ¼ÓÈë¸ßË¹°×ÔëÉù
+	// åˆ†é€šé“åŠ å…¥é«˜æ–¯ç™½å™ªå£°
 	AddGaussianNoise(channel[0]);
 	AddGaussianNoise(channel[1]);
 	AddGaussianNoise(channel[2]);
 
-	// ºÏ²¢RGBÍ¨µÀ
+	// åˆå¹¶RGBé€šé“
 	merge(channel, 3, image);
 	imshow("AddGaussianNoise", image);
 	normalize(image, image, 255, 0, CV_C);
 	imwrite("GaussianNoiseImage.png", image);
 	normalize(image, image, 1, 0, CV_C);
 
-	// ¾ùÖµÂË²¨
+	// å‡å€¼æ»¤æ³¢
 	AverageFilter(image, image);
 	imshow("AverageFiltered", image);
 	normalize(image, image, 255, 0, CV_C);
 	imwrite("AverageFiltered.png", image);
 	normalize(image, image, 1, 0, CV_C);
 
-	// ÔÙ´Î¾ùÖµÂË²¨
+	// å†æ¬¡å‡å€¼æ»¤æ³¢
 	AverageFilter(image, image);
 	imshow("DoubleAverageFiltered", image);
 	normalize(image, image, 255, 0, CV_C);
 	imwrite("DoubleAverageFiltered.png", image);
 	normalize(image, image, 1, 0, CV_C);
 
-	// ·ÖÀëRGBAÆ½Ãæ
+	// åˆ†ç¦»RGBAå¹³é¢
 	split(image, channel);
 
-	// ×ª»»Í¼ÏñÀàĞÍ
+	// è½¬æ¢å›¾åƒç±»å‹
 	channel[0].convertTo(channel[0], CV_32FC1);
 	channel[1].convertTo(channel[1], CV_32FC1);
 	channel[2].convertTo(channel[2], CV_32FC1);
 
-	// ¹éÒ»»¯µ½[0,1]¸¡µãÊı
+	// å½’ä¸€åŒ–åˆ°[0,1]æµ®ç‚¹æ•°
 	normalize(channel[0], channel[0], 1, 0, CV_C);
 	normalize(channel[1], channel[1], 1, 0, CV_C);
 	normalize(channel[2], channel[2], 1, 0, CV_C);
 
-	// ·ÖÍ¨µÀ¼ÓÈë¸ßË¹°×ÔëÉù
+	// åˆ†é€šé“åŠ å…¥é«˜æ–¯ç™½å™ªå£°
 	ImpulseNoise(channel[0], number);
 	ImpulseNoise(channel[1], number);
 	ImpulseNoise(channel[2], number);
 
-	// ºÏ²¢RGBÍ¨µÀ
+	// åˆå¹¶RGBé€šé“
 	merge(channel, 3, image);
 	imshow("AddSalt-PepperNoise", image);
 	normalize(image, image, 255, 0, CV_C);
 	imwrite("Salt-PepperNoiseImage.png", image);
 	normalize(image, image, 1, 0, CV_C);
 
-	// ¾ùÖµÂË²¨
+	// å‡å€¼æ»¤æ³¢
 	MedianFilter(channel[0], channel[0]);
 	MedianFilter(channel[1], channel[1]);
 	MedianFilter(channel[2], channel[2]);
@@ -217,7 +217,7 @@ int main()
 	imwrite("MedianFiltered.png", image);
 	normalize(image, image, 1, 0, CV_C);
 
-	// ÔÙ´Î¾ùÖµÂË²¨
+	// å†æ¬¡å‡å€¼æ»¤æ³¢
 	MedianFilter(channel[0], channel[0]);
 	MedianFilter(channel[1], channel[1]);
 	MedianFilter(channel[2], channel[2]);

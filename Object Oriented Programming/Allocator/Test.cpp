@@ -12,7 +12,7 @@ template<class T>
 using MyAllocator = My_Allocator<T>;
 using Point2D = std::pair<int, int>;
 
-const int TestSize = 10000; // Size¹ı´ó»áÊÜµ½ÄÚ´æ¶ÁĞ´ËÙ¶ÈÖÆÔ¼£¿
+const int TestSize = 10000; // Sizeè¿‡å¤§ä¼šå—åˆ°å†…å­˜è¯»å†™é€Ÿåº¦åˆ¶çº¦ï¼Ÿ
 const int smallSize = 1000;
 const int largeSize = TestSize;
 const int PickSize = 1000;

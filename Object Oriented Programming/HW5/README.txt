@@ -1,17 +1,17 @@
-FractionÀà
-°üº¬
-ÈýÖÖ¹¹Ôìº¯Êý
+Fractionç±»
+åŒ…å«
+ä¸‰ç§æž„é€ å‡½æ•°
 Fraction();
 Fraction(int a, int b);
 Fraction(const Fraction& that);
-ÒÑÖØÔØµÄÔËËã·û
-ËãÊõÔËËã + - * / += -= *= /=
-Âß¼­ÔËËã == != > >= < <=
-ÊäÈëÁ÷ >> 
-ÊäÈë¸ñÊ½ÎªÌâÄ¿ÒªÇó
-Êä³öÁ÷ <<
-×ª×Ö·û´®Fraction.ToString();
-ÀàÐÍ×ª»»double
+å·²é‡è½½çš„è¿ç®—ç¬¦
+ç®—æœ¯è¿ç®— + - * / += -= *= /=
+é€»è¾‘è¿ç®— == != > >= < <=
+è¾“å…¥æµ >> 
+è¾“å…¥æ ¼å¼ä¸ºé¢˜ç›®è¦æ±‚
+è¾“å‡ºæµ <<
+è½¬å­—ç¬¦ä¸²Fraction.ToString();
+ç±»åž‹è½¬æ¢double
 
-±àÒëºóÔËÐÐmain.exe¿ÉÒÔ²é¿´²âÊÔ³ÌÐòÔËÐÐÇé¿ö
-Ò²¿ÉÒÔÐÞ¸Ä²âÊÔ³ÌÐò½øÐÐ²âÊÔ
+ç¼–è¯‘åŽè¿è¡Œmain.exeå¯ä»¥æŸ¥çœ‹æµ‹è¯•ç¨‹åºè¿è¡Œæƒ…å†µ
+ä¹Ÿå¯ä»¥ä¿®æ”¹æµ‹è¯•ç¨‹åºè¿›è¡Œæµ‹è¯•
